@@ -1,6 +1,6 @@
 plugin 'acts_as_list', :git => "git://github.com/rails/acts_as_list.git"
 
-plugin 'tog_picto', :git => "git://github.com/tog/tog_picto.git"
+plugin 'tog_picto', :git => "git://github.com/aspgems/tog_picto.git"
 
 route "map.routes_from_plugin 'tog_picto'"
 

@@ -12,6 +12,8 @@ en:
       no_photos_yet: No photos yet
     site:
       no_photosets_yet: No photosets yet
+      photosets: Photosets
+      photosets_to_of: Photosets {{start}} to {{end}} of {{total}}
     member:
       photoset_created: Photoset created successfully
       photoset_updated: Photoset updated successfully

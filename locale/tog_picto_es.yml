@@ -12,6 +12,8 @@ es:
       no_photos_yet: Aún no hay fotos
     site:
       no_photosets_yet: Aún no hay álbumes
+      photosets: Álbumes
+      photosets_to_of: Álbumes {{start}} a {{end}} de {{total}}
     member:
       photoset_created: Álbum creado con éxito
       photoset_updated: Álbum actualizado con éxito

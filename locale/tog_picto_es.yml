@@ -1,10 +1,10 @@
 # {{xxx}}
 es:
   interface:
-      member:
-          photos: Fotos
-      site:
-          photos: Fotos
+    member:
+      photos: Fotos
+    site:
+      photos: Fotos
   tog_picto:
     plugin_name: Picto
     plugin_description: Plugin para gestión de fotos
@@ -14,6 +14,11 @@ es:
       no_photosets_yet: Aún no hay álbumes
       photosets: Álbumes
       photosets_to_of: Álbumes {{start}} a {{end}} de {{total}}
+      photos:
+        index:
+          all_photo_tags: Tags
+          photos_to_of: Fotos {{start}} a {{end}} de {{total}}
+          latest_photos: Últimas fotos
     member:
       photoset_created: Álbum creado con éxito
       photoset_updated: Álbum actualizado con éxito
@@ -25,27 +30,32 @@ es:
       photo_deleted: Foto eliminada
       sidebar:
         upload_more_photos: Sube más fotos ahora!
-        upload_new_images: Subir nuevas fotos
+        upload_new_images: Subir fotos
         your_photosets: Tus álbumes
+        your_stuff: Tus fotos y álbumes
       photosets:
         new:
           new_photoset: Nuevo álbum
           title: Título
           description: Descripción
           tags_separated_by: Etiquetas (separadas por ,)
-          privacy: Privado
-          photoset_is_private: Este álbum es privado
+          privacy: Privacidad
           create_photoset: Crear álbum
           upload_more_photos: Sube más fotos ahora!
           upload_new_images: Subir nuevas imágenes
           your_photosets: Tus álbumes
+          select_private: Privado
+          select_public: Público
+          select_friends: Amigos
         edit:
           editing_photoset: Editando álbum
           title: Título
           description: Descripción
           tags_separated_by: Etiquetas (separadas por ,)
           privacy: Privacidad
-          this_photoset_is_public: Esta álbum es público
+          this_photoset_is_public: Este álbum es público
+          this_photoset_is_private: Este álbum es privado
+          this_photoset_is_friends: Este álbum lo pueden ver mis amigos
           photos: Fotos
           main_photo: Portada
           currently_in_the_set: Actualmente en el álbum
@@ -53,6 +63,10 @@ es:
           available_photos: Fotos en tu cuenta
           no_more_photos: No hay mas fotos
           save_photoset: Guardar álbum
+          delete_this_photoset: Borrar este álbum
+        index:
+          your_photosets: Tus álbumes
+          manage_photoset: Editar álbum
       photos:
         new:
           upload_photos: Subir fotos
@@ -64,8 +78,16 @@ es:
           photoset_description: Descripción
           photo_with_index: Foto
           title: Título
-          tags: Etiquetas
           description: Descripción
           photo_file_field: Foto
           upload_one_more: Subir una foto más
           upload: Subir!
+        index:
+          your_photos: Tus fotos
+          your_photo_tags: Tus tags
+        edit:
+          editing_photo: Editando {{photo}}
+          delete_this_photo: Borrar esta foto
+          title: Nombre
+          description: Descripción
+          tags_separated_by: Etiquetas (separadas por ,)

@@ -1,6 +1,7 @@
 require_plugin 'tog_core'
 require_plugin 'tog_social'
 require_plugin 'acts_as_list'
+require_plugin 'acts_as_voteable'
 
 
 Tog::Plugins.settings :tog_picto, "photo.versions.big"    => "700x700>",

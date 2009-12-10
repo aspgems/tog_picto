@@ -1,6 +1,3 @@
-<% content_for :sidebar do %>
-
-<% end %>
 <div class="detail detail1">
     <div class="image"><%= photoset_image(@photoset) %></div>
     <div class="title"><%= @photoset.title %></div>
@@ -10,11 +7,11 @@
 </div> <!-- /.detail1 -->
 <br/><br/>
 <div class="portlet portletG">
-    <h2><span>Photos</span></h2>
+  <h2><span><%= I18n.t('interface.site.photos') %></span></h2>
     <div class="portlet_content">
         <ul class="clearfix">
           <% if @photos.empty? %>
-            <li>There isn't any photos on this photoset yet.</li>
+            <li><%= I18n.t('tog_picto.photoset_photos.no_photos_yet') %></li>
           <% else %>
               <% @photos.each do |photo| %>
                 <li><%= link_to image_tag(photo.image.url("tiny")),
@@ -28,8 +25,10 @@
 <% if !@photos.empty? %>
   <div class="info_results">
       <span class="info_items">
-        Photos <%=@photos.size > 0 ? (@photos.offset + 1) : '0'%> to
-              <%=@photos.size + @photos.offset%> of <%=@photos.total_entries%>
+        <%= I18n.t('tog_picto.site.photos.index.photos_to_of', 
+                   :start => (@photos.size > 0 ? (@photos.offset + 1) : '0'),
+                   :end   => (@photos.size + @photos.offset),
+                   :total => @photos.total_entries) %>
       </span>
       <span class="pages_navigation right">
           <%= will_paginate @photos %>

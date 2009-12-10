@@ -1,7 +1,3 @@
-<% content_for :sidebar do %>
-
-<% end %>
-
 <p><%= link_to I18n.t('tog_picto.member.photosets.new.create_photoset'),  new_member_picto_photoset_url, {:class => "add button", :title => "Create a new photoset"} -%></p>
 
 <div class="portlet portletB">
@@ -31,7 +27,7 @@
 									 :total => @photosets.total_entries) %> 
 	    </span>
 	    <span class="pages_navigation right">
-		      <%= will_paginate @photosets %>
+        <%= will_paginate @photosets %>
 	    </span>
 	</div>
-<%end%>
+<% end %>

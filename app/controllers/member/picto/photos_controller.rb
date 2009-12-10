@@ -47,10 +47,17 @@ class Member::Picto::PhotosController < Member::BaseController
 
   def edit
     @photo = current_user.photos.find(params[:id])
+    @owned_photosets = current_user.owned_photosets
   end
 
   def update
     @photo = current_user.photos.find(params[:id])
+    photoset_id = params[:photo].delete(:photoset_id)
+    if photoset_id == '0'
+      @photo.photoset = Picto::Photoset.build(params[:photoset])
+      @photo.photoset.user = current_user
+      @photo.photoset.save!
+    end
     respond_to do |wants|
       if @photo.update_attributes(params[:photo])
         wants.html do

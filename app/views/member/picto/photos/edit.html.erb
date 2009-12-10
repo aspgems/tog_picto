@@ -1,31 +1,61 @@
-<h2>Editing photo
-  <% form_tag member_picto_photo_path(@photo), :method => :delete do -%>    <br/>
-    <%= submit_tag "Delete this photo", :disable_with => "Please wait...", :type => "image", :src =>"/images/ico/delete.gif" %>
-  <% end -%>
-</h2>
+<% content_for :sidebar do %>
+  <div class="portlet portletD" id="portlet_userWall">
+    <h2><span><%= I18n.t('tog_picto.member.photos.edit.editing_photo', :photo => @photo.title) %></span></h2>
+    <div class="portlet_content">
+      <% form_tag member_picto_photo_path(@photo), :method => :delete do -%><br />
+        <%= submit_tag I18n.t('tog_picto.member.photos.edit.delete_this_photo'), :disable_with => "Please wait...", :type => "image", :src =>"/tog_picto/images/ico/delete.gif" %> <%= I18n.t('tog_picto.member.photos.edit.delete_this_photo') %>
+      <% end -%>
+    </div>
+  </div>
+<% end %>
 
+<div class="titleB"><%= I18n.t("tog_picto.member.photos.edit.editing_photo", :photo => @photo.title) %></div>
 
 <%= error_messages_for :photo %>
 
+<script type="text/javascript">
+  function toggle_photoset(obj) {
+    if (obj.value=="0"){
+      $('new-set').appear();
+    }else{
+      $('new-set').hide();
+    } 
+  }
+</script>
+
 <% form_for :photo, :url => member_picto_photo_url, :html => {:id => "settings", :method => "put"} do |f| -%>
-   <fieldset>
-      <fieldset id="login-details">
-        <legend>Photo info<br/>
-        <%= image_tag(@photo.image.url(:small)) %> 
-        </legend>
-        <label>Title <%= f.text_field :title, :size=> nil  %></label>
-        <label>Description <%= f.text_area :description, :rows => 3 %></label>
-        <label>Tags <%= f.text_field :tag_list, :size=> nil  %></label>
-        <br/>
-      </fieldset>
-      
+  <fieldset>
+    <div class="fields">
+      <p><%= image_tag(@photo.image.url(:tiny)) %></p>
+
+      <p><label><%= I18n.t('tog_picto.member.photos.edit.title') %></label> <%= f.text_field :title, {:class => 'fieldbox', :size => '40'} %></p>
+
+      <p><label><%= I18n.t('tog_picto.member.photos.edit.description') %></label> <%= f.text_area :description, :size => '40x3' %></p>
+
+      <p><label><%= I18n.t('tog_picto.member.photos.edit.tags_separated_by') %></label> <%= f.text_field :tag_list, :size => '40' %></p>
+
+      <p><label><%= I18n.t("tog_picto.member.photos.new.select_photoset") %></label> <%= f.select :photoset_id, @owned_photosets.collect { |p| [ p.title, p.id ] } << [%(#{I18n.t("tog_picto.member.photos.new.create_new")}...), 0], { :include_blank => true }, :onchange => "toggle_photoset(this)" %></p>
+
+      <div id="new-set" style="display:none">
+        <% fields_for :photoset do |p|-%>
+          <fieldset>
+            <p><label><%= I18n.t("tog_picto.member.photosets.edit.title") %></label> <%= p.text_field :title, {:size => nil} %></p>
+            <p><label><%= I18n.t("tog_picto.member.photosets.edit.description") %></label> <%= p.text_area :description, :rows => 4 %></p>
+            <p><label><%= I18n.t("tog_picto.member.photosets.edit.tags_separated_by") %></label> <%= p.text_field :tag_list, {:size => '40'} %></p>
+            <p><label><%= I18n.t("tog_picto.member.photosets.edit.privacy") %></label> <%= p.select :privacy, privacy_select_options %></p>
+          </fieldset>
+        <% end -%> 
+      </div>
+    </div>
+  </fieldset>
+      <!--
       <fieldset>
         <legend>Settings</legend>
         <label><input checked="checked" type="checkbox" value="1" /><input name="user[admin]" type="hidden" value="0" /> This photoset is public.</label>
-      </fieldset>
-
+      </fieldset> -->
+    <div class="actions">
       <%= submit_tag 'Save photo' %>
+    </div>
 
-    </fieldset>
 <% end -%>
 

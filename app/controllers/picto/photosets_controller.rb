@@ -1,17 +1,18 @@
 class Picto::PhotosetsController < ApplicationController
 
-  helper "picto/base"
-  
-  #after_filter :filter_photosets
+  helper 'picto/base'
+  include Picto::BaseHelper
 
+  before_filter :extract_query_options
+  
   def index
-    
-    @order = params[:order] || 'created_at'
-    @page = params[:page] || '1'
-    @asc = params[:asc] || 'desc'   
-    @photosets = filter(Picto::Photoset.find(:all)).paginate :page => @page,
-                                  :per_page => Tog::Config["plugins.tog_social.profile.list.page.size"],
-                                  :order => @order + " " + @asc 
+    if logged_in?
+      @photosets = Picto::Photoset.all.select do |set|
+        current_user.can_read?(set)
+      end.paginate(pagination_options)
+    else
+      @photosets = Picto::Photoset.public.paginate(pagination_options)
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @photosets }
@@ -20,23 +21,11 @@ class Picto::PhotosetsController < ApplicationController
   
   def show
     @photoset = Picto::Photoset.find(params[:id])
-#    if @photoset.authorized(current_user, :read)
-#      redirect_to denied_path
-#    else
-      @order = params[:order] || 'created_at'
-      @page = params[:page] || '1'
-      @asc = params[:asc] || 'desc'   
-      @photos = @photoset.photos.paginate :page => @page,
-                                    :per_page => Tog::Config["plugins.tog_social.profile.list.page.size"],
-                                    :order => @order + " " + @asc      
-#    end
-  end
-  
-  def filter(photosets)
-    if photosets
-      photosets = photosets.delete_if{|set| 
-        !set.authorized(current_user, :read)
-      }
+    unless @photoset.can_be_read_by?(current_user)
+      flash[:error] = "Unauthorized"
+      redirect_to :action => 'index' and return
     end
+    @photos = @photoset.photos.paginate(pagination_options)
   end
+
 end

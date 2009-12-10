@@ -6,7 +6,7 @@ module Picto
       if main_photo
         image_tag(main_photo.image.url(size), :style => "float:left;margin-right:10px;")
       else
-         image_tag "/images/tog_picto/default_photoset.png", :style => "float:left;margin-right:10px;"
+         image_tag "/tog_picto/images/default_photoset.png", :style => "float:left;margin-right:10px;"
       end
     end
 
@@ -41,7 +41,14 @@ module Picto
     end
 
     def tag_cloud_photos(classes)
-      tags = Picto::Photo.public.tag_counts
+      tags = 
+        if !logged_in? 
+          Picto::Photo.public.tag_counts
+        else
+          Picto::Photo.all.select do |photo| 
+            photo.can_be_read_by?(current_user)
+          end.map(&:tag_counts).flatten.compact
+        end
       return if tags.empty?
       max_count = tags.sort_by(&:count).last.count.to_f
       tags.each do |tag|
@@ -58,6 +65,24 @@ module Picto
         index = ((tag.count / max_count) * (classes.size - 1)).round
         yield tag, classes[index]
       end
+    end
+
+    def extract_query_options
+      @order = params[:order] || 'created_at'
+      @page  = params[:page] || '1'
+      @asc   = params[:asc] || 'desc'   
+    end
+
+    def pagination_options
+      { :page     => @page,
+        :per_page => Tog::Config["plugins.tog_social.profile.list.page.size"],
+        :order    => @order + " " + @asc } 
+    end
+
+    def privacy_select_options
+      [ [I18n.t('tog_picto.member.photosets.new.select_public'), Picto::Photoset::IS_PUBLIC],
+        [I18n.t('tog_picto.member.photosets.new.select_friends'), Picto::Photoset::IS_FRIENDS],
+        [I18n.t('tog_picto.member.photosets.new.select_private'), Picto::Photoset::IS_PRIVATE] ]
     end
     
   end

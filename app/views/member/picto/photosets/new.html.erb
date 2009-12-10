@@ -1,12 +1,13 @@
 <% content_for :sidebar do %>
-  <%= link_to I18n.t("tog_picto.member.sidebar.upload_more_photos"),  new_member_picto_photo_url, { :class => "add", :title => I18n.t("tog_picto.member.sidebar.upload_new_images") } %>
-<br/>
-  <%= link_to I18n.t("tog_picto.member.sidebar.your_photosets"), member_picto_photosets_url %>
+  <div class="portlet portletD" id="portlet_userWall">
+    <h2><span><%= I18n.t('tog_picto.member.sidebar.your_stuff') %></span></h2>
+      <div class="portlet_content">
+        <%= link_to I18n.t('tog_picto.member.sidebar.upload_new_images'), new_member_picto_photo_url, {:class => "add", :title => I18n.t('tog_picto.member.sidebar.upload_new_images')} %>
+      </div>    
+  </div>
 <% end %>
 
-
-<div class="titleB"><%= I18n.t("tog_picto.member.photosets.new.new_photoset") %></div>
-<br />
+<p><%= link_to I18n.t("tog_picto.member.sidebar.your_photosets"), member_picto_photosets_url %></p>
 
 <%= error_messages_for :photoset %>
 
@@ -20,7 +21,7 @@
 
        <p><label><%= I18n.t("tog_picto.member.photosets.new.tags_separated_by") %></label> <%= f.text_field :tag_list, {:class => "fieldbox", :size => "40"} %></p>
 
-       <p><label><%= I18n.t("tog_picto.member.photosets.new.privacy") %></label><%= f.check_box :privacy %> <%= I18n.t("tog_picto.member.photosets.new.photoset_is_private") %></p>
+       <p><label><%= I18n.t("tog_picto.member.photosets.new.privacy") %></label><%= f.select :privacy, privacy_select_options %></p>
 
     </div>
   </fieldset>

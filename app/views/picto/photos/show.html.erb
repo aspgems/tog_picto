@@ -26,18 +26,10 @@
     <% end %>
   </p>
 
-  <div class="info_results">
-    <%= text_navigation_links(@photo) %>
-<!--
-    <%= text_navigation_links(@photo, {
-        :prev_text => image_tag('/img/ico/greenarrow-6.gif', :alt =>'Anterior'),
-        :next_text => image_tag('/img/ico/greenarrow-5.gif', :alt =>'Siguiente'),
-        :separator => ""
-      }, {:class => "imgnavigation"}) %>
--->
-    <%= image_navigation_links(@photo) %>
+  <div class="portlet portletI">
+    <h2><span><%= I18n.t('tog_core.site.voting.voting') %></span></h2>
+    <%= render :partial => "shared/voting", :locals => { :voteable => @photo } %>
   </div>
-
   <%= render :partial => "shared/comments", :locals => { :commentable => @photo } %>
 
 </div>

@@ -4,7 +4,6 @@ class Member::Picto::PhotosetsController < Member::BaseController
 
   def index
     @owned_photosets = current_user.owned_photosets.paginate(:page => params[:page], :order => "created_at DESC")
-    @joined_photosets = current_user.joined_photosets
   end
   
   def new
@@ -18,10 +17,11 @@ class Member::Picto::PhotosetsController < Member::BaseController
     flash[:ok] = I18n.t("tog_picto.member.photoset_created") 
     redirect_to member_picto_photosets_path
   end
+
   def edit
-    @photoset = current_user.owned_photosets.find(params[:id])
-    
+    @photoset = current_user.owned_photosets.find(params[:id])  
   end
+
   def update
     @photoset = current_user.owned_photosets.find(params[:id])
     respond_to do |wants|
@@ -45,6 +45,7 @@ class Member::Picto::PhotosetsController < Member::BaseController
     @photoset.save!
     render :partial => 'photoset_photos', :locals => {:photos_in_the_set => @photoset.photos}
   end
+
   def remove_photo
     @photoset = current_user.owned_photosets.find(params[:id])
     @photoset.photos.delete(photo_for_xhr_id("photo_in_set_",params[:photo_id]))
@@ -58,6 +59,7 @@ class Member::Picto::PhotosetsController < Member::BaseController
     @photoset.save!
     render :partial => 'main_photo_in_the_set', :locals => {:photoset => @photoset}
   end
+
   def destroy
     @photoset = current_user.owned_photosets.find(params[:id])
     @photoset.destroy
@@ -67,7 +69,6 @@ class Member::Picto::PhotosetsController < Member::BaseController
         redirect_to member_picto_photosets_path
       end
     end
-    
   end
 
   private 

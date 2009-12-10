@@ -3,12 +3,12 @@ class Picto::Photo < ActiveRecord::Base
 
   acts_as_commentable
   acts_as_taggable
-  acts_as_rateable :average => true
+  acts_as_voteable
   acts_as_list :scope => :photoset
 
   belongs_to :owner, :class_name => "User", :foreign_key => "user_id"
   belongs_to :photoset
-  named_scope :public, :joins => "INNER JOIN photosets ON photosets.id = photos.photoset_id",:conditions => ['photosets.privacy = 0']
+  named_scope :public, :joins => "INNER JOIN photosets ON photosets.id = photos.photoset_id", :conditions => ['photosets.privacy = 0']
 
   has_attached_file :image, {
     :url => "/system/:class/:attachment/:id/:style_:basename.:extension",
@@ -19,14 +19,25 @@ class Picto::Photo < ActiveRecord::Base
       :tiny   => Tog::Plugins.settings(:tog_picto, "photo.versions.tiny")
     }}.merge(Tog::Plugins.storage_options)
 
+  def self.latest
+    all({ :limit => "20", :order => "created_at desc" })
+  end
+
+  def can_be_read_by?(user)
+    if photoset
+      photoset.can_be_read_by?(user)
+    else
+      owner == user
+    end
+  end
+
   def creation_date(format=:short)
     I18n.l(self.created_at, :format => format)
   end
   
   private
-
-  def update_position
-    add_to_list_bottom if position.nil? || photoset_id != Picto::Photo.find(self.id).photoset_id
-  end
+    def update_position
+      add_to_list_bottom if position.nil? || photoset_id != Picto::Photo.find(self.id).photoset_id
+    end
 
 end

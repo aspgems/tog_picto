@@ -18,8 +18,8 @@ Dir[File.dirname(__FILE__) + '/locale/**/*.yml'].each do |file|
   I18n.load_path << file
 end
 
-#Tog::Search.sources << Photo
-#Tog::Search.sources << PhotoSet
+Tog::Search.sources << 'Picto::Photo'
+Tog::Search.sources << 'Picto::Photoset'
 #
 #Tog::Interface.sections(:user).tabs(:photos).add_item "Your photos", "/user/picto/photos"
 #Tog::Interface.sections(:user).tabs(:photos).add "Your sets", "/user/picto/photosets"

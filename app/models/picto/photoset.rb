@@ -15,48 +15,18 @@ class Picto::Photoset < ActiveRecord::Base
 
   named_scope :public, :conditions => ['privacy = ?', IS_PUBLIC] 
 
+  define_index do
+    indexes title
+    indexes description
+    has privacy
+  end
+
   def can_be_read_by?(user)
     return true if self.privacy == IS_PUBLIC
     return true if self.owner == user
     return true if self.privacy == IS_FRIENDS && self.owner.friends.include?(user)
     return false
   end
-
-#  def authorized(user, permission=:all)
-#    case permission
-#    when :read
-#      authorized_read(user)
-#    when :write
-#      authorized_write(user)
-#    when :destroy
-#      authorized_destroy(user)
-#    when :all
-#      authorized_all(user)
-#    end
-#  end
-#
-#  def authorized_read(user)
-#    case self.privacy
-#    when IS_PUBLIC
-#      return true
-#    when IS_FRIENDS
-#      return self.owner.profile.friends.include?(user.profile) || self.owner == user
-#    when IS_PRIVATE
-#      return self.owner == user
-#    end
-#  end
-#
-#  def authorized_write(user)
-#    return self.owner == user
-#  end
-#
-#  def authorized_destroy(user)
-#    return self.owner == user
-#  end
-#
-#  def authorized_all(user)
-#    authorized_read(user) && authorized_write(user) && authorized_destroy(user)
-#  end
   
   def creation_date(format=:short)
     I18n.l(self.created_at, :format => format)
@@ -64,6 +34,10 @@ class Picto::Photoset < ActiveRecord::Base
 
   def number_of_photos
     photos.count
+  end
+
+  def self.site_search(query, options = {})
+    self.search query, options.merge(:with => { :privacy => Picto::Photoset::IS_PUBLIC })
   end
 
 end

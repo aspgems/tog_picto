@@ -20,6 +20,8 @@ end
 
 Tog::Search.sources << 'Picto::Photo'
 Tog::Search.sources << 'Picto::Photoset'
+
+Tog::Plugins.settings :tog_picto, { 'search.skip_indices' => false }
 #
 #Tog::Interface.sections(:user).tabs(:photos).add_item "Your photos", "/user/picto/photos"
 #Tog::Interface.sections(:user).tabs(:photos).add "Your sets", "/user/picto/photosets"

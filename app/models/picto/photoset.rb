@@ -15,10 +15,16 @@ class Picto::Photoset < ActiveRecord::Base
 
   named_scope :public, :conditions => ['privacy = ?', IS_PUBLIC] 
 
-  define_index do
-    indexes title
-    indexes description
-    has privacy
+  unless Tog::Plugins.settings(:tog_picto, 'search.skip_indices')
+    define_index do
+      indexes title
+      indexes description
+      has privacy
+    end
+
+    def self.site_search(query, options = {})
+      self.search query, options.merge(:with => { :privacy => Picto::Photoset::IS_PUBLIC })
+    end
   end
 
   def can_be_read_by?(user)
@@ -34,10 +40,6 @@ class Picto::Photoset < ActiveRecord::Base
 
   def number_of_photos
     photos.count
-  end
-
-  def self.site_search(query, options = {})
-    self.search query, options.merge(:with => { :privacy => Picto::Photoset::IS_PUBLIC })
   end
 
 end

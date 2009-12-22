@@ -19,19 +19,21 @@ class Picto::Photo < ActiveRecord::Base
       :tiny   => Tog::Plugins.settings(:tog_picto, "photo.versions.tiny")
     }}.merge(Tog::Plugins.storage_options)
 
-  define_index do
-    indexes title
-    indexes description
-    indexes image_file_name
-    has photoset(:privacy), :as => :privacy
+  unless Tog::Plugins.settings(:tog_picto, 'search.skip_indices')
+    define_index do
+      indexes title
+      indexes description
+      indexes image_file_name
+      has photoset(:privacy), :as => :privacy
+    end
+
+    def self.site_search(query, options = {})
+      self.search query, options.merge(:with => { :privacy => Picto::Photoset::IS_PUBLIC })
+    end
   end
 
   def self.latest
     all({ :limit => "20", :order => "created_at desc" })
-  end
-
-  def self.site_search(query, options = {})
-    self.search query, options.merge(:with => { :privacy => Picto::Photoset::IS_PUBLIC })
   end
 
   def can_be_read_by?(user)

@@ -8,7 +8,8 @@ class Picto::Photo < ActiveRecord::Base
 
   belongs_to :owner, :class_name => "User", :foreign_key => "user_id"
   belongs_to :photoset
-  named_scope :public, :joins => "INNER JOIN photosets ON photosets.id = photos.photoset_id", :conditions => ['photosets.privacy = 0']
+  named_scope :public, :joins => "LEFT OUTER JOIN photosets ON photosets.id = photos.photoset_id", 
+    :conditions => ['photosets.privacy = 0 or photos.photoset_id is null']
 
   has_attached_file :image, {
     :url => "/system/:class/:attachment/:id/:style_:basename.:extension",
@@ -40,7 +41,7 @@ class Picto::Photo < ActiveRecord::Base
     if photoset
       photoset.can_be_read_by?(user)
     else
-      owner == user
+      true
     end
   end
 

@@ -3,7 +3,7 @@ class CreatePictoTables < ActiveRecord::Migration
     create_table :photosets do |t|
       t.string :title
       t.string :description
-      t.integer :main_photo_id
+      t.integer :main_photo_id, :references => nil
       t.timestamps
     end
     create_table :photos do |t|

@@ -7,10 +7,12 @@
   </div>
 <% end %>
 
+
+  <h1><span><%= I18n.t('tog_picto.member.photosets.index.your_photosets') %></span></h1>
+
 <p><%= link_to I18n.t('tog_picto.member.photosets.new.create_photoset'),  new_member_picto_photoset_url, {:class => "add button", :title => I18n.t('tog_picto.member.photosets.new.create_photoset')} -%></p>
 
 <div class="portlet portletB">
-  <h2><span><%= I18n.t('tog_picto.member.photosets.index.your_photosets') %></span></h2>
     <div class="portlet_content">	
         <ul>
 					<% if @owned_photosets.empty? %>

@@ -1,3 +1,4 @@
+<h2><span><%= I18n.t('interface.site.photos') %></span></h2>
 <div class="detail detail1">
     <div class="image"><%= photoset_image(@photoset) %></div>
     <div class="title"><%= @photoset.title %></div>
@@ -7,7 +8,6 @@
 </div> <!-- /.detail1 -->
 <br/><br/>
 <div class="portlet portletG">
-  <h2><span><%= I18n.t('interface.site.photos') %></span></h2>
     <div class="portlet_content">
         <ul class="clearfix">
           <% if @photos.empty? %>

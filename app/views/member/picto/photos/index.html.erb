@@ -7,10 +7,10 @@
   </div>
 <% end %>
 
-<p><%= link_to I18n.t("tog_picto.member.sidebar.your_photosets"), member_picto_photosets_url %></p>
+<h1><span><%= I18n.t('tog_picto.member.photos.index.your_photos') %></span></h1>
 
 <div class="portlet portletG">
-  <h2><span><%= I18n.t('tog_picto.member.photos.index.your_photos') %></span></h2>
+  <p><%= link_to I18n.t("tog_picto.member.sidebar.your_photosets"), member_picto_photosets_url %></p>
     <div class="portlet_content">
         <ul class="clearfix">
           <% if @my_photos.empty? %>
